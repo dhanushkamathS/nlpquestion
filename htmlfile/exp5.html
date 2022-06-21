@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>word frequency cout with visualization</h1>
+    <br/>
+<pre>
+from google.colab import drive
+drive.mount('/content/gdrive')  
+</pre>
+<br>
+<pre>
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('omw-1.4')
+</pre>
+<br>
+<pre>
+#Excerise 1
+import nltk
+import re
+import string
+from nltk import sent_tokenize
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk import pos_tag
+nltk.download('wordnet')
+from nltk.stem import WordNetLemmatizer
+#text='He is interested to visit Bangalore on 7th June 2021'
+#text="Robert was a good king. He had a great army. He wanted to bring peace to his kingdom. There were many others who wanted to become king. They started plotting against him. Their plots were failing because of some trusted friends of the king"
+#text="Modern definitions of what it means to create intelligence are more specific. Francois Chollet, AI researcher at Google and creator of the machine-learning software library Keras, has said intelligence is tied to a system's ability to adapt and improvise in a new environment, to generalise its knowledge and apply it to unfamiliar scenarios"
+#text="Pick the birthday pictures for the process"
+
+#text="NLP primarily comprises of natural language understanding (human to machine)"
+#text="and natural language generation (machine to human). NLU aids in extracting"
+#text="valuable information from text such as social media data, customer surveys, and"
+#text="complaints."
+
+text='NLP primarily comprises of natural language understanding (human to machine) and natural language generation (machine to human). NLU aids in extracting valuable information from text such as social media data, customer surveys, and complaints.'
+
+#file = open("/content/gdrive/MyDrive/Colab_Notebooks/Jan 2022 - June 2022/NLP (2021-2022)/NLP - LAB/EX-5/text1.txt.txt","rt", )
+#file = open("input_1.txt","rt")
+#text=file.read()
+#file.close()
+#print("The File contents")
+print(text)
+
+#-------------------------------------------------
+sentences = sent_tokenize(text) 
+print("After Sentence Segmentaton \n",sentences)
+print(len(sentences))
+#text=sentences
+print("------------------------------------------------")
+#-------------------------------------------------
+
+
+#----------------------------------------------------
+text=text.lower()
+print("After converting to Lower cases")
+print(text)
+print(len(text))
+print("------------------------------------------------")
+#---------------------------------------------------
+
+
+num_remo = re.sub(r'\d+', '', text)
+print("After removal of Numbers")
+print(num_remo)
+print("------------------------------------------------")
+#-------------------------------------------------
+
+
+translator = str.maketrans('', '', string.punctuation) 
+text = num_remo.replace('-', ' ')
+pun_rem=text.translate(translator)
+print("After Punctuation removal")
+print(pun_rem)
+print(len(pun_rem))
+print("------------------------------------------------")
+
+#tokens=word_tokenize(pun_rem)
+tokens=word_tokenize(pun_rem)
+print("After Word Tokenization")
+print(tokens)
+print(len(tokens))
+text=tokens
+print("------------------------------------------------")
+
+
+
+#--------------------------------------------------
+lemmatizer=WordNetLemmatizer()
+lemmatized_output = ' '.join([lemmatizer.lemmatize(w) for w in tokens])
+#print("After Lemmatizing on Noun -->",lemmatized_output)
+lemmatized_output=word_tokenize(lemmatized_output)
+lemmatized_output_1 = [lemmatizer.lemmatize(w,'v') for w in lemmatized_output]
+print("After Lemmatizing ")
+print(lemmatized_output_1)
+print(len(lemmatized_output_1))
+print("------------------------------------------------")
+text=lemmatized_output_1
+</pre>
+
+<br>
+<pre>
+#Excerise 3
+#word Frequency calculation
+import nltk
+from nltk.corpus import webtext
+from nltk.probability import FreqDist
+from nltk.tokenize import word_tokenize 
+nltk.download('webtext')
+
+filtered_sentence=text
+#Total number of words in the given text document
+data_analysis = nltk.FreqDist(filtered_sentence)
+for word in sorted(data_analysis):
+     print(word, '->', data_analysis[word], end='; ')
+print("\n\nTotal no of words in the document -->",len(data_analysis))
+
+#data_analysis = nltk.FreqDist(filtered_sentence)
+print("\n\nWord Frequency for the pre processed text")
+data_analysis.plot(25, cumulative=False)
+ 
+# Let's take the specific words only if their frequency is greater than or equal to 2.
+filter_words = dict([(m, n) for m, n in data_analysis.items() if n >= 2])
+
+print("Word Frequency >= 2")
+for key in sorted(filter_words):
+    print("%s: %s" % (key, filter_words[key]))
+data_analysis = nltk.FreqDist(filter_words)
+data_analysis.plot(25, cumulative=False)
+</pre>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>WN_Lexical Relations</h1>
+
+<pre>
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+</pre>
+
+<br/>
+
+<pre>
+from nltk.corpus import wordnet as wn
+</pre>
+
+<br/>
+
+<pre>
+s1="The Natural Language Toolkit (NLTK) is an open-source Python library for NLP"
+#s1='This is a sample example'
+s1_token=s1.split()
+synset_coll=[]
+
+for i in s1_token:
+  temp=wn.synsets(i)
+  if (len(temp)>0):
+      print("\n",temp,len(temp))
+      synset_coll.append(temp)
+for i in synset_coll:
+  print(i) 
+  print("\n")   
+
+print("\n")
+print("Name                     Definition                         Example")
+for i in synset_coll:
+  for j in range(len(i)):
+    print(i[j].name(), '   -  ',i[j].definition(),'  -  ',i[j].examples())
+    #print(synset_coll[0][1].lemmas()[1].name())
+    #print(synset_coll[0][1].examples())
+
+ #print(synset_coll[0][1].name(), ' - ',synset_coll[0][1].definition())
+ #print(synset_coll[0][1].lemmas()[1].name())
+ #print(synset_coll[0][1].examples())
+</pre>
+<br/>
+<pre>
+#printing Hypernym and Hyponym of the words in a sentence
+print("Name              Hypernyms                     Hyponyms                     Root-Hypernyms")
+for i in synset_coll:
+  for j in range(len(i)):
+    print(i[j].name(),'  -  ',i[j].hypernyms(),'  -  ',i[j].hyponyms(),'  -  ',i[j].root_hypernyms())
+
+</pre>
+<br/>
+<pre>
+print("Name                   Pos")
+for i in synset_coll:
+  for j in range(len(i)):
+    print(i[j].name(),'    -   ',i[j].pos())
+</pre>
+</body>
+</html>

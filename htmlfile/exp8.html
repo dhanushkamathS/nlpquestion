@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>
+        Syntax Parsing
+    </h1>
+
+<pre>
+import nltk
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+from nltk import pos_tag, word_tokenize, RegexpParser
+
+# Example text  
+#sample_text = "The quick brown fox jumps over the lazy dog"
+sample_text = "He has completed all his exams" 
+# Find all parts of speech in above sentence
+tagged = pos_tag(word_tokenize(sample_text))
+
+#Extract all parts of speech from any text 
+chunker = RegexpParser((r"""
+                       NP: {<DT>?<JJ>*<NN>}    #To extract Noun Phrases
+                       P: {<IN>}               #To extract Prepositions
+                       V: {<V.*>}              #To extract Verbs
+                       PP: {<p> <NP>}          #To extract Prepositional Phrases
+                       VP: {<V> <NP|PP>*}      #To extract Verb Phrases
+                       """))
+ 
+# Print all parts of speech in above sentence
+out = chunker.parse(tagged)
+print("After Extracting\n", out)
+</pre>
+
+<br/>
+
+<pre>
+### CREATE VIRTUAL DISPLAY ###
+!apt-get install -y xvfb # Install X Virtual Frame Buffer
+import os
+os.system('Xvfb :1 -screen 0 1600x1200x16  &')    # create virtual display with size 1600x1200 and 16 bit color. Color can be changed to 24 or 8
+os.environ['DISPLAY']=':1.0'    # tell X clients to use our virtual DISPLAY :1.0.
+</pre>
+
+<br/>
+
+<pre>
+### INSTALL GHOSTSCRIPT (Required to display NLTK trees) ###
+!pip install svgling
+!apt install ghostscript python3-tk
+</pre>
+<br/>
+
+<pre>
+from nltk.tree import Tree
+from IPython.display import display
+tree = Tree.fromstring(str(out))
+display(tree)
+</pre>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Jacard Distance</h1>
+
+<pre>
+import nltk
+from nltk.metrics import *
+X=set([10,20,30,40])
+Y=set([20,30,60])
+print(jaccard_distance(X,Y))
+</pre>
+
+<pre>
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('omw-1.4')
+</pre>
+
+<pre>
+#Text similarity measurement without text preprocessing
+import nltk
+from nltk.metrics import *
+from nltk.tokenize import word_tokenize
+
+s1="We are learning NLP using Python"
+s2="We are learning NLP using Python"
+s3="NLP under Python is simple"
+s4="People are using NLP in Python for chatbot"
+s1=set(word_tokenize(s1))
+s2=set(word_tokenize(s2))
+s3=set(word_tokenize(s3))
+s4=set(word_tokenize(s4))
+print(s1)
+print(s2)
+print(jaccard_distance(s1,s2))
+print(s1)
+print(s3)
+print(jaccard_distance(s1,s3))
+print(s1)
+print(s4)
+print(jaccard_distance(s1,s4))
+</pre>
+
+<pre>
+#Text similarity measurement with text preprocessing
+import nltk
+import re
+import string
+from nltk.metrics import *
+from nltk import sent_tokenize
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+nltk.download('wordnet')
+from nltk.stem import WordNetLemmatizer
+def text_preprocess(text):
+    text=text.lower()
+    text = re.sub(r'\d+', '', text)
+    translator = str.maketrans('', '', string.punctuation)
+    text = text.replace('-', ' ')
+    text=text.translate(translator)
+    text=set(word_tokenize(text))
+    lemmatizer=WordNetLemmatizer()
+    text = [lemmatizer.lemmatize(w) for w in text]
+    #print("After Lemmatizing on Noun -->",lemmatized_output)
+    #lemmatized_output=word_tokenize(lemmatized_output)
+    text = [lemmatizer.lemmatize(w,'v') for w in text]
+    return set(text)
+
+s1=text_preprocess("We are learning NLP using Python")
+s2=s1
+s3=text_preprocess("NLP under Python is simple")
+s4=text_preprocess("People are using NLP in Python for chatbot")
+print(s1)
+print(s2)
+print(jaccard_distance(s1,s2))
+print(s1)
+print(s3)
+print(jaccard_distance(s1,s3))
+print(s1)
+print(s4)
+print(jaccard_distance(s1,s4))
+</pre>
+</body>
+</html>

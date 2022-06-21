@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>
+    Morphological Parsing
+    </h1>
+
+<pre>
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('omw-1.4')
+</pre>
+
+<br/>
+
+<pre>
+!pip install wordninja
+</pre>
+
+<br/>
+
+<pre>
+import wordninja
+words=" ".join(wordninja.split('derekanderson'))
+print(words)
+ 
+words=" ".join(wordninja.split("societynamebank"))
+print(words)
+
+#s1="TheNaturalLanguageToolkit(NLTK)isanopen-sourcePythonlibraryforNLP"
+s1="Thisprogramisusingwordninjamoduleforwordsepertionprocess"
+words=" ".join(wordninja.split(s1))
+print(words)
+</pre>
+
+<br/>
+
+<pre>
+nltk.download('wordnet')
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+import string
+import re
+
+s1="The Natural Language Toolkit (NLTK) is having many linguistic libraries for NLP Processes"
+#s1="he writes his exams"
+#s1="I have written all the exams"
+text=s1.lower()
+print("After converting to Lower cases")
+print(text)
+tokens=word_tokenize(text)
+print("------------------------------------------------")
+
+
+#-------------------------------------------------
+translator = str.maketrans('', '', string.punctuation) 
+text1= text.replace('-', ' ')
+text=text1.translate(translator)
+print("After Punctuation removal")
+print(text)
+print("------------------------------------------------")
+
+token=text.split()
+
+print("------------------------------------------------")
+#--------------------------------------------------
+lemmatizer=WordNetLemmatizer()
+print(token)
+lemmatized_output = ' '.join([lemmatizer.lemmatize(w) for w in token])
+print("After Lemmatizing on Noun -->",lemmatized_output)
+lemmatized_output=word_tokenize(lemmatized_output)
+lm_1 =  [lemmatizer.lemmatize(w,'v') for w in lemmatized_output]
+print("After Lemmatizing ")
+print(lm_1)
+print("------------------------------------------------")
+
+</pre>
+
+<br/>
+
+<pre>
+noun=[]
+
+token=text.split()
+tagged = nltk.pos_tag(lm_1)
+print(tagged)
+
+
+for j in tagged:
+    if 'PRP'== j[1]:        
+        cnt='Pronoun'
+        temp=j[0],j[1],cnt        
+        noun.append(temp) 
+    elif 'PRP$' == j[1]:
+        cnt='Possessive Pronoun'
+        temp=j[0],j[1],cnt        
+        noun.append(temp)              
+    elif 'NN' in j[1]:
+      ind=tagged.index(j)
+      if (token[ind]==j[0]):
+        cnt='SL'
+      else:
+        cnt='PL'
+      temp=j[0],j[1],cnt        
+      noun.append(temp)
+
+print("======= N O U N - Morphological Pharsing ==============")
+for i in noun:
+  print(i)
+</pre>
+
+<br>
+
+<pre>
+verb=[]
+#tagged = nltk.pos_tag(token)
+for j in tagged:
+    if (j[1]=='VBD'):
+        vpart='Past'
+        temp=j[0],j[1],vpart
+        verb.append(temp)
+        continue
+    elif (j[1]=='VB'):
+        if j[0]=='be':
+           vpart='Aux Verb'
+        else:
+           vpart='Simple present tense'
+        temp=j[0],j[1],vpart
+        verb.append(temp)
+        continue
+    elif (j[1]=='VBG'):
+        vpart='continuous'
+        temp=j[0],j[1],vpart
+        verb.append(temp)
+        continue
+    elif (j[1]=='VBN'):
+        vpart='Past_participle'
+        temp=j[0],j[1],vpart
+        verb.append(temp)
+        continue
+    elif (j[1]=='VBP'):
+        vpart='Present 3P SL'
+        temp=j[0],j[1],vpart
+        verb.append(temp)
+        continue
+    elif (j[1] == 'VBZ'):        
+        vpart='Present 3p SL'
+        temp=j[0],j[1],vpart
+        verb.append(temp)
+        continue
+print("======= V E R B - Morphological Pharsing ==============")
+for i in verb:
+  print(i)
+</pre>
+</body>
+</html>

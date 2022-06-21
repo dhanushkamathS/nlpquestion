@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Smith Waterman similarity</h1>
+
+    <p>
+        import itertools<br>
+        import numpy as np<br><br>
+
+        def matrix(a, b, match_score=3, gap_cost=2):<br>
+            H = np.zeros((len(a) + 1, len(b) + 1), np.int)<br>
+
+            for i, j in itertools.product(range(1, H.shape[0]), range(1, H.shape[1])):<br/>
+                match = H[i - 1, j - 1] + (match_score if a[i - 1] == b[j - 1] else - match_score)<br/>
+                delete = H[i - 1, j] - gap_cost<br>
+                insert = H[i, j - 1] - gap_cost<br>
+                H[i, j] = max(match, delete, insert, 0)<br>
+            return H<br>
+    </p>
+    <br/>
+    <p>
+        def traceback(H, b, b_='', old_i=0):<br/>
+        # flip H to get index of **last** occurrence of H.max() with np.argmax()<br/>
+        #print(H)<br/>
+        #print("H value",H)<br/>
+        H_flip = np.flip(np.flip(H, 0), 1)<br/>
+        #print("H_flip value\n",H_flip)<br/>
+        #print(H_flip.argmax(),H_flip.shape)<br/>
+        #print(H_flip)<br/>
+        i_, j_ = np.unravel_index(H_flip.argmax(), H_flip.shape)<br/>
+        #print(i_,j_)<br/>
+        i, j = np.subtract(H.shape, (i_ + 1, j_ + 1))  # (i, j) are **last** indexes of H.max()<br/>
+        #print(i,j,H[i,j])<br/>
+        if H[i, j] == 0:<br/>
+            return b_, j<br>
+        b_ = b[j - 1] + '-' + b_ if old_i - i > 1 else b[j - 1] + b_<br/>
+        return traceback(H[0:i, 0:j], b, b_, i)<br/>
+    </p>
+    <br>
+<pre>
+def smith_waterman(a, b, match_score=3, gap_cost=2):
+    a, b = a.upper(), b.upper()
+    H = matrix(a, b, match_score, gap_cost)
+    b_, pos = traceback(H, b)
+    return pos, pos + len(b_)
+</pre>
+<br/>
+<pre>
+# prints correct scoring matrix from Wikipedia example
+a, b = 'rain', 'shine'
+#a,b="great","treat"
+#a,b="grace","great"
+print("Input Strings are ",a," & ",b)
+print(matrix(a,b))
+
+H = matrix(a, b)
+print(traceback(H, b)) # ('gtt-ac', 1)
+
+#a, b = 'GGTTGACTA', 'TGTTACGG'
+start, end = smith_waterman(a, b)
+print(a[start:end])     # GTTGAC
+</pre>
+</body>
+</html>

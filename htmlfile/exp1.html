@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>text tokenization and sentence segmentation</h1>
+
+    <p>
+        from google.colab import drive<br/>
+        drive.mount('/content/drive')
+    </p>
+    <br>
+    <p>
+        import nltk <br/>
+        nltk.download('punkt')
+    </p>
+    <br/>
+    <p>
+    import nltk <br/>
+    import string<br/>
+    from nltk.tokenize import word_tokenize<br/>
+
+    #Open the text file to apply the text preprocessing<br/>
+    #file = open("/content/drive/MyDrive/Colab_Notebooks/Jan 2022 - June 2022/NLP (2021-2022)/NLP - LAB/CYK Algorithm/input_text1.txt","rt",encoding="latin1")<br/>
+    #text=file.read()<br/>
+    #file.close()<br/>
+    text="NLP primarily comprises of  natural language understanding (human to machine) and natural language generation (machine to human). NLU aids in extracting valuable information from text such as social media data, customer surveys, and complaints."<br/>
+    print("The File contents")<br/>
+    print(text)<br/>
+
+    print("------------------------------------------------")<br/>
+
+    tokens=word_tokenize(text)<br/>
+    print("Tokens")<br/>
+    print(tokens)<br/>
+    print(len(tokens))<br/>
+    print("------------------------------------------------")<br/>
+    </p>
+</body>
+</html>

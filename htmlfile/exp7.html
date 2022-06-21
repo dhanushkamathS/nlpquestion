@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Word split from a combined text</h1>
+
+<pre>
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
+</pre>
+
+<br/>
+
+<pre>
+!pip install wordninja
+</pre>
+
+<br/>
+
+<pre>
+import wordninja
+words=" ".join(wordninja.split('derekanderson'))
+print(words)
+ 
+words=" ".join(wordninja.split("societynamebank"))
+print(words)
+
+#s1="TheNaturalLanguageToolkit(NLTK)isanopen-sourcePythonlibraryforNLP"
+s1="Thisprogramisusingwordninjamoduleforwordsepertionprocess"
+words=" ".join(wordninja.split(s1))
+print(words)
+</pre>
+
+</body>
+</html>
